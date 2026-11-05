@@ -1,0 +1,26 @@
+name: ci
+on: [push, pull_request]
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env: { POSTGRES_USER: cartas, POSTGRES_PASSWORD: cartas, POSTGRES_DB: cartas }
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready --health-interval 5s --health-retries 10
+    env:
+      DATABASE_URL: postgres://cartas:cartas@localhost:5432/cartas
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: npm ci
+      - run: psql "$DATABASE_URL" -f db/migrations/001_esquema.sql
+      - run: npm run lint     # FF-04, ADR-03 y ADR-04
+      - run: npm run build    # compilacion estricta
+      - run: npm test         # unitarias, contrato, persistencia y tests/architecture

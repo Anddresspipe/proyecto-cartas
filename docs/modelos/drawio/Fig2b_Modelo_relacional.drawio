@@ -1,0 +1,100 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Fig 2b - Relacional" id="d1">
+    <mxGraphModel dx="2065" dy="1110" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1800" pageHeight="1800" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="c2" parent="1" style="html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;fillColor=#FFFFFF;strokeColor=#2F4B7C;strokeWidth=1.5;fontSize=11;overflow=hidden;" value="&lt;div style=&quot;background:#2F4B7C;color:#fff;text-align:center;padding:3px&quot;&gt;&lt;b&gt;REGLA_JUEGO&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;padding:4px 6px;text-align:left&quot;&gt;# codigo : VARCHAR(30)&lt;br&gt;* nombre : VARCHAR(60)&lt;br&gt;* acumulativa : BOOLEAN&lt;/div&gt;" vertex="1">
+          <mxGeometry height="86" width="176" x="469" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="c3" parent="1" style="html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;fillColor=#FFFFFF;strokeColor=#2F4B7C;strokeWidth=1.5;fontSize=11;overflow=hidden;" value="&lt;div style=&quot;background:#2F4B7C;color:#fff;text-align:center;padding:3px&quot;&gt;&lt;b&gt;SALA&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;padding:4px 6px;text-align:left&quot;&gt;# id : UUID&lt;br&gt;* codigo_acceso : VARCHAR(8) (UK)&lt;br&gt;* creada_en : TIMESTAMPTZ&lt;/div&gt;" vertex="1">
+          <mxGeometry height="86" width="242" x="220" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="c4" parent="1" style="html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;fillColor=#FFFFFF;strokeColor=#2F4B7C;strokeWidth=1.5;fontSize=11;overflow=hidden;" value="&lt;div style=&quot;background:#2F4B7C;color:#fff;text-align:center;padding:3px&quot;&gt;&lt;b&gt;JUGADOR&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;padding:4px 6px;text-align:left&quot;&gt;# id : UUID&lt;br&gt;* sala_id : UUID (FK)&lt;br&gt;* alias : VARCHAR(30)  (UK con sala_id)&lt;br&gt;* token_hash : CHAR(64)&lt;br&gt;* es_admin : BOOLEAN&lt;/div&gt;" vertex="1">
+          <mxGeometry height="122" width="281" x="200" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="c5" parent="1" style="html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;fillColor=#FFFFFF;strokeColor=#2F4B7C;strokeWidth=1.5;fontSize=11;overflow=hidden;" value="&lt;div style=&quot;background:#2F4B7C;color:#fff;text-align:center;padding:3px&quot;&gt;&lt;b&gt;PARTIDA&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;padding:4px 6px;text-align:left&quot;&gt;# id : UUID&lt;br&gt;* sala_id : UUID (FK)&lt;br&gt;* regla_codigo : VARCHAR(30) (FK)&lt;br&gt;o partida_anterior_id : UUID (FK, auto-referencia CU-04)&lt;br&gt;* estado : EN_ESPERA|EN_JUEGO|FINALIZADA&lt;br&gt;o iniciada_en, finalizada_en : TIMESTAMPTZ&lt;br&gt;* version : INT (bloqueo optimista)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="158" width="394" x="732" y="258" as="geometry" />
+        </mxCell>
+        <mxCell id="c6" parent="1" style="html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;fillColor=#FFFFFF;strokeColor=#2F4B7C;strokeWidth=1.5;fontSize=11;overflow=hidden;" value="&lt;div style=&quot;background:#2F4B7C;color:#fff;text-align:center;padding:3px&quot;&gt;&lt;b&gt;PARTICIPACION&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;padding:4px 6px;text-align:left&quot;&gt;# id : UUID&lt;br&gt;* partida_id : UUID (FK)&lt;br&gt;* jugador_id : UUID (FK)&lt;br&gt;* orden_turno : SMALLINT&lt;br&gt;* estado : ACTIVO|ELIMINADO|ABANDONO&lt;br&gt;* puntaje_inicial : INT (CU-04)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="140" width="262" x="586" y="488" as="geometry" />
+        </mxCell>
+        <mxCell id="c7" parent="1" style="html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;fillColor=#FFFFFF;strokeColor=#2F4B7C;strokeWidth=1.5;fontSize=11;overflow=hidden;" value="&lt;div style=&quot;background:#2F4B7C;color:#fff;text-align:center;padding:3px&quot;&gt;&lt;b&gt;RONDA&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;padding:4px 6px;text-align:left&quot;&gt;# id : UUID&lt;br&gt;* partida_id : UUID (FK)&lt;br&gt;* numero : SMALLINT (UK con partida_id)&lt;br&gt;* estado : EN_CURSO|CERRADA&lt;br&gt;o cerrada_por : UUID (FK)&lt;br&gt;* iniciada_en : TIMESTAMPTZ&lt;br&gt;o cerrada_en : TIMESTAMPTZ&lt;/div&gt;" vertex="1">
+          <mxGeometry height="158" width="281" x="788.5" y="691" as="geometry" />
+        </mxCell>
+        <mxCell id="c8" parent="1" style="html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;fillColor=#FFFFFF;strokeColor=#2F4B7C;strokeWidth=1.5;fontSize=11;overflow=hidden;" value="&lt;div style=&quot;background:#2F4B7C;color:#fff;text-align:center;padding:3px&quot;&gt;&lt;b&gt;MANO_JUGADOR&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;padding:4px 6px;text-align:left&quot;&gt;# id : UUID&lt;br&gt;* ronda_id : UUID (FK)&lt;br&gt;* participacion_id : UUID (FK)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="86" width="222" x="606" y="990" as="geometry" />
+        </mxCell>
+        <mxCell id="c9" parent="1" style="html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;fillColor=#FFFFFF;strokeColor=#2F4B7C;strokeWidth=1.5;fontSize=11;overflow=hidden;" value="&lt;div style=&quot;background:#2F4B7C;color:#fff;text-align:center;padding:3px&quot;&gt;&lt;b&gt;MANO_CARTA&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;padding:4px 6px;text-align:left&quot;&gt;# mano_id : UUID (FK)&lt;br&gt;# posicion : SMALLINT&lt;br&gt;* palo : C|D|T|P&lt;br&gt;* valor : A,2..10,J,Q,K&lt;br&gt;* es_suelta : BOOLEAN&lt;/div&gt;" vertex="1">
+          <mxGeometry height="122" width="176" x="629" y="1160" as="geometry" />
+        </mxCell>
+        <mxCell id="c10" parent="1" style="html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;fillColor=#FFFFFF;strokeColor=#2F4B7C;strokeWidth=1.5;fontSize=11;overflow=hidden;" value="&lt;div style=&quot;background:#2F4B7C;color:#fff;text-align:center;padding:3px&quot;&gt;&lt;b&gt;TURNO_JUGADA&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;padding:4px 6px;text-align:left&quot;&gt;# id : BIGINT&lt;br&gt;* ronda_id : UUID (FK)&lt;br&gt;* participacion_id : UUID (FK)&lt;br&gt;* secuencia : INT (UK con ronda_id)&lt;br&gt;* accion : ROBAR_MAZO|ROBAR_POZO|DESCARTAR|CERRAR&lt;br&gt;o palo, valor : carta involucrada&lt;br&gt;* valida : BOOLEAN&lt;br&gt;* registrada_en : TIMESTAMPTZ&lt;/div&gt;" vertex="1">
+          <mxGeometry height="176" width="347" x="200" y="682" as="geometry" />
+        </mxCell>
+        <mxCell id="c11" parent="1" style="html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;fillColor=#FFFFFF;strokeColor=#2F4B7C;strokeWidth=1.5;fontSize=11;overflow=hidden;" value="&lt;div style=&quot;background:#2F4B7C;color:#fff;text-align:center;padding:3px&quot;&gt;&lt;b&gt;PUNTAJE_ACUMULADO&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;padding:4px 6px;text-align:left&quot;&gt;# id : BIGINT&lt;br&gt;* ronda_id : UUID (FK)&lt;br&gt;* participacion_id : UUID (FK)&lt;br&gt;* delta : INT (-penalizacion | +10)&lt;br&gt;* acumulado : INT&lt;br&gt;* ganador_ronda : BOOLEAN&lt;/div&gt;" vertex="1">
+          <mxGeometry height="140" width="255" x="1080" y="870" as="geometry" />
+        </mxCell>
+        <mxCell id="c12" edge="1" parent="1" source="c3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2F4B7C;strokeWidth=1.3;startArrow=ERmandOne;endArrow=ERzeroToMany;startSize=12;endSize=12;fontSize=11;labelBackgroundColor=#FFFFFF;" target="c4" value="tiene">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c13" edge="1" parent="1" source="c3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2F4B7C;strokeWidth=1.3;startArrow=ERmandOne;endArrow=ERzeroToMany;startSize=12;endSize=12;fontSize=11;labelBackgroundColor=#FFFFFF;" target="c5" value="alberga">
+          <mxGeometry relative="1" x="-0.5945" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c14" edge="1" parent="1" source="c2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2F4B7C;strokeWidth=1.3;startArrow=ERmandOne;endArrow=ERzeroToMany;startSize=12;endSize=12;fontSize=11;labelBackgroundColor=#FFFFFF;" target="c5" value="define">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c15" edge="1" parent="1" source="c5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2F4B7C;strokeWidth=1.3;startArrow=ERmandOne;endArrow=ERoneToMany;startSize=12;endSize=12;fontSize=11;labelBackgroundColor=#FFFFFF;" target="c6" value="incluye">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c16" edge="1" parent="1" source="c4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2F4B7C;strokeWidth=1.3;startArrow=ERmandOne;endArrow=ERzeroToMany;startSize=12;endSize=12;fontSize=11;labelBackgroundColor=#FFFFFF;" target="c6" value="participa">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c17" edge="1" parent="1" source="c5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2F4B7C;strokeWidth=1.3;startArrow=ERmandOne;endArrow=ERoneToMany;startSize=12;endSize=12;fontSize=11;labelBackgroundColor=#FFFFFF;" target="c7" value="se compone de">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c18" edge="1" parent="1" source="c7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2F4B7C;strokeWidth=1.3;startArrow=ERmandOne;endArrow=ERoneToMany;startSize=12;endSize=12;fontSize=11;labelBackgroundColor=#FFFFFF;" target="c8" value="reparte">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c19" edge="1" parent="1" source="c6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2F4B7C;strokeWidth=1.3;startArrow=ERmandOne;endArrow=ERzeroToMany;startSize=12;endSize=12;fontSize=11;labelBackgroundColor=#FFFFFF;" target="c8" value="recibe">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c20" edge="1" parent="1" source="c8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2F4B7C;strokeWidth=1.3;startArrow=ERmandOne;endArrow=ERoneToMany;startSize=12;endSize=12;fontSize=11;labelBackgroundColor=#FFFFFF;" target="c9" value="contiene">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c21" edge="1" parent="1" source="c7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2F4B7C;strokeWidth=1.3;startArrow=ERmandOne;endArrow=ERzeroToMany;startSize=12;endSize=12;fontSize=11;labelBackgroundColor=#FFFFFF;" target="c10" value="registra">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c22" edge="1" parent="1" source="c6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2F4B7C;strokeWidth=1.3;startArrow=ERmandOne;endArrow=ERzeroToMany;startSize=12;endSize=12;fontSize=11;labelBackgroundColor=#FFFFFF;" target="c10" value="ejecuta">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c23" edge="1" parent="1" source="c7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2F4B7C;strokeWidth=1.3;startArrow=ERmandOne;endArrow=ERzeroToMany;startSize=12;endSize=12;fontSize=11;labelBackgroundColor=#FFFFFF;" target="c11" value="liquida">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c24" edge="1" parent="1" source="c6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2F4B7C;strokeWidth=1.3;startArrow=ERmandOne;endArrow=ERzeroToMany;startSize=12;endSize=12;fontSize=11;labelBackgroundColor=#FFFFFF;" target="c11" value="acumula">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1370" y="540" />
+              <mxPoint x="1370" y="940" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c25" edge="1" parent="1" source="c5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2F4B7C;strokeWidth=1.3;startArrow=ERzeroToOne;endArrow=ERzeroToOne;startSize=12;endSize=12;fontSize=11;labelBackgroundColor=#FFFFFF;" target="c5" value="continua de">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1176" y="307" />
+              <mxPoint x="1176" y="367" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c26" edge="1" parent="1" source="c6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2F4B7C;strokeWidth=1.3;startArrow=ERzeroToOne;endArrow=ERzeroToMany;startSize=12;endSize=12;fontSize=11;labelBackgroundColor=#FFFFFF;" target="c7" value="cierra">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c27" parent="1" style="text;html=1;fontSize=15;fontStyle=1;align=left;" value="Modelo relacional lógico/físico&amp;nbsp;" vertex="1">
+          <mxGeometry height="30" width="235" x="410" y="20" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
